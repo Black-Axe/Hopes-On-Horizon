@@ -22,7 +22,6 @@ export default function BannerSearch() {
 				<div className="col-md-8">
 					<div className="menu_text">
 						<ul>
-							<li className="last">Log in / Register</li>
 							<li className="last"><img src="images/search-icon.png" alt="search Icon" onClick={openNav}/></li>
 							<li className="active">
 							 <div id="myNav" className="overlay" ref={navRef}>
