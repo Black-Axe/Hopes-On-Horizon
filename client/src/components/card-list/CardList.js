@@ -3,7 +3,7 @@ import { Card } from '../card/Card';
 import './card-list.styles.css';
 
 
-export default function CardList(props) {
+export default function CardList({animals}) {
     const dummyData = [
         {'name': 'joe', 'age': '20'},
         {'name': 'george', 'age': '22'},
@@ -36,14 +36,20 @@ export default function CardList(props) {
         {'name': 'george', 'age': '22'},
         {'name': 'jane', 'age': '21'},
     ];
+
     return (
+
+
+        animals ?
+        (<>
         <div className='card-list'>
-            {dummyData.map((item, index) => (
-                <Card key={index} name={item.name} age={item.age} />
+            {animals.map((animal, index) => (
+                <Card key={index} animal={animal} />
             ))}
 
-
-            
         </div>
+        </>)
+        :
+        (<div></div>)
     )
 }
