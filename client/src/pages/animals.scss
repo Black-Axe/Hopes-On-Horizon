@@ -1,3 +1,80 @@
 .side-bar{
   float:left;
+  padding-left: 8vw;
+  padding-top: 45vh;
+
+
+}
+
+.searchContainerBanner{
+  min-height: 30vh;
+}
+
+.searchContainer{
+  //text-align: center;
+  //padding-top:25%;
+  //margin-left:25vw;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 4rem;
+  padding: 4rem;
+  margin: 0 auto;
+  width: max-content;
+
+}
+
+.city-state-fields{
+  float:left;
+}
+
+.middle{
+  text-align: center;
+}
+
+
+.searchButton{
+  background-color: #F89D13;
+
+
+}
+
+.searchButton:hover{
+  background-color: #8F1D14;
+}
+
+.fieldsInput{
+  height:5.5vh;
+  width:7.5vw;
+
+  margin-right:15px;
+}
+
+.searchLabel{
+  font-size: 2.5rem;
+}
+
+.searchLabelBigger{
+  font-size: 4rem;
+}
+
+.stickyNote{
+  position: relative;
+  text-align: center;
+  bottom:5px;
+  background-image: url("../digitalAssets/clientSide/sticky.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width:450px;
+  left:37vw;
+
+}
+
+.stickyNoteText{
+  position: relative;
+  width:200px;
+  left:6vw;
+  bottom:23vh;
 }

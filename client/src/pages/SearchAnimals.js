@@ -1,12 +1,63 @@
-import React from 'react'
+import React, {useState, useEffect}from 'react'
 import Banner from '../components/BannerSearch'
 import Search from '../components/Search'
-
+import CardList from '../components/card-list/CardList';
 import './animals.scss';
+import { Card } from '../components/card/Card';
+
 export default function SearchAnimals() {
+  const [animals, setAnimals] = useState(null);
+    const [pagination, setPagination] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const [error, setError] = useState(null);
+    const [animalFact, setAnimalFact] = useState(null);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/animals')
+        .then(response => response.json())
+        .then(data => {
+            setAnimals(data.animals);
+            setPagination(data.pagination);
+            setLoading(false);
+            console.log(data);
+        })
+        .catch(error => {
+            setError(error);
+            setLoading(false);
+        })
+    }, []);
+
+    useEffect(() => {
+        console.log(animals);
+    }, [animals]);
+
+
+    useEffect(() => {
+      fetchAnimalFact();
+
+    }, []);
+
+    const fetchAnimalFact = async () => {
+      fetch('https://se-animal-facts.herokuapp.com/')
+      .then(response => response.json())
+    .then(response => {
+
+      console.log(response.data)
+      setAnimalFact(response.data);
+
+      })
+            
+
+
+    }
+
     return (
-        <>
+    <>
         <Banner />
+        <div className="stickyNote">
+          <p className="stickyNoteText">{animalFact ? animalFact : ""}</p>
+        </div>
         <div className="side-bar">
             <ul>
                 <li>
@@ -19,63 +70,33 @@ export default function SearchAnimals() {
                     <a href="/search">Search</a>
                 </li>
             </ul>
-        </div>
-        
-<section class="cards-wrapper">
-  <div class="cardAnimal-grid-space">
-    <div class="num">01</div>
-    <a class="cardAnimal cardAnimal-image" href="/">
-      <div>
-        <h1>HTML Syntax</h1>
-        <p>The syntax of a language is how it works. How to actually write it. Learn HTML syntax…</p>
-        <div class="date">6 Oct 2017</div>
-        <div class="tags">
-          <div class="tag">HTML</div>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="cardAnimal-grid-space">
-    <div class="num">01</div>s
-    <a class="cardAnimal" href="https://codetheweb.blog/2017/10/06/html-syntax/">
-      <div>
-        <h1>HTML Syntax</h1>
-        <p>The syntax of a language is how it works. How to actually write it. Learn HTML syntax…</p>
-        <div class="date">6 Oct 2017</div>
-        <div class="tags">
-          <div class="tag">HTML</div>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="cardAnimal-grid-space">
-    <div class="num">02</div>
-    <a class="cardAnimal" href="https://codetheweb.blog/2017/10/09/basic-types-of-html-tags/">
-      <div>
-        <h1>Basic types of HTML tags</h1>
-        <p>Learn about some of the most common HTML tags…</p>
-        <div class="date">9 Oct 2017</div>
-        <div class="tags">
-          <div class="tag">HTML</div>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="cardAnimal-grid-space">
-    <div class="num">03</div>
-    <a class="cardAnimal" href="https://codetheweb.blog/2017/10/14/links-images-about-file-paths/">
-      <div>
-        <h1>Links, images and about file paths</h1>
-        <p>Learn how to use links and images along with file paths…</p>
-        <div class="date">14 Oct 2017</div>
-        <div class="tags">
-          <div class="tag">HTML</div>
-        </div>
-      </div>
-    </a>
-  </div>
- </section>
+          </div>
+        <div className="searchContainer">
+          
+          
+          <div className="city-state-fields">
+            <h4 className="searchLabel">Search by city and state</h4>
+              <input id="cityField" placeholder="city" className="fieldsInput"></input>
 
-        </>
+              <input id="stateField" placeholder="state" className="fieldsInput"></input>
+              <button className="searchButton fieldsInput">Submit</button>
+            </div>
+            <div className="middle">
+
+            <h5 className="searchLabelBigger">or</h5>
+            </div>
+          
+          <div className="zipcode">
+            <h4 className="searchLabel">Search by zip</h4>
+            <input placeholder="Zipcode" className="fieldsInput"></input>
+            <button className="searchButton fieldsInput">Submit</button>
+          </div>
+        </div>
+
+      
+      <CardList animals={animals} />
+
+    </>
+    
     )
 }

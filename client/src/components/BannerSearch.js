@@ -41,35 +41,17 @@ export default function BannerSearch() {
 			</div>
 		</div>
 		<div className="banner_main">
-		<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      One of three columns
-	  <div class="col-sm">
-	  <h1 className="taital">Search</h1>
-	  <input type="text" class="" placeholder="Search for a product" />
-	  </div>
-    </div>
-    <div class="col-sm">
-      One of three columns
-	  <div className="col-sm-12">
-	<h1 className="taital">Search</h1>
-	<input type="text" class="" placeholder="Search for a product" />
-	
-</div>
-    </div>
-    <div class="col-sm">
-      One of three columns
-	  <div className="col-sm-12">
-	<h1 className="taital">Search</h1>
-	<input type="text" class="" placeholder="Search for a product" />
-	</div>
-    </div>
-  </div>
-</div>
+		<div class="container searchContainerBanner">
+      stuff
+  
 		</div>
+    
 	</div>
-    </div>
+  
+  </div>
+
+  
+    </div>  
 	
 
 
