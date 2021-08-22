@@ -41,14 +41,14 @@ export default function CardList({animals}) {
 
 
         animals ?
-        (<>
+        (<div className="card-list-container">
         <div className='card-list'>
             {animals.map((animal, index) => (
                 <Card key={index} animal={animal} />
             ))}
 
         </div>
-        </>)
+        </div>)
         :
         (<div></div>)
     )
