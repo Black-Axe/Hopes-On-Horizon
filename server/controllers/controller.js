@@ -49,8 +49,22 @@ export const getAnimals = async (req, res) => {
            
                 if(response.status == 200){
                     console.log('success');
+                    const data = response.data.animals;
+                    var filteredAnimals = [];
+                    for(var i = 0; i < data.length; i++){
+                        if(invalidName(data[i].name)){
+                            continue;
+                        }else{
+                            filteredAnimals.push(data[i]);
+                        }
+                        console.log(data[i].name);
+                        console.log(invalidName(data[i].name));
+                    }
+
+                    const pagination = response.data.pagination;
+                    var resp = {animals: filteredAnimals, pagination: pagination};
         
-                    res.json(response.data);
+                    res.json(resp);
                 }
             })
 
@@ -99,5 +113,11 @@ const getToken = async () => {
 
 
 }
+
+const invalidName = (name) => {
+    let isnum = /^\d+$/.test(name);
+    return isnum;
+    
+};
 
 export default router;
