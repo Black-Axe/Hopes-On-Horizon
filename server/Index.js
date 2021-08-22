@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import animalRouter from './routes/animalRouter.js';
+import searchRouter from './routes/searchRouter.js';
 const app = express()
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.get('/', async (req, res) => {
 
 
 app.use('/animals', animalRouter);
+app.use('/search', searchRouter);
 
 
 
