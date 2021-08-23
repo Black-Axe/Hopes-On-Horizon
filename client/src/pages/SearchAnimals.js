@@ -55,9 +55,6 @@ export default function SearchAnimals() {
     return (
     <>
         <Banner />
-        <div className="stickyNote">
-          <p className="stickyNoteText">{animalFact ? animalFact : ""}</p>
-        </div>
         <div className="side-bar">
             <ul>
                 <li>
