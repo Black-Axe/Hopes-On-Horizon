@@ -1,6 +1,9 @@
-import React, {useRef} from 'react'
+import React, {useState, useEffect, useRef } from 'react'
 
 export default function BannerSearch() {
+
+
+  const [animalFact, setAnimalFact] = useState(null);
 
     function openNav(){
         //console.log(navRef.current);
@@ -11,6 +14,26 @@ export default function BannerSearch() {
     }
 
     const navRef = useRef(null);
+
+    useEffect(() => {
+      fetchAnimalFact();
+
+    }, []);
+
+    const fetchAnimalFact = async () => {
+      fetch('https://se-animal-facts.herokuapp.com/')
+      .then(response => response.json())
+    .then(response => {
+
+      console.log(response.data)
+      setAnimalFact(response.data);
+
+      })
+            
+
+
+    }
+
     return (
     
         <div className="header_section">
@@ -41,38 +64,33 @@ export default function BannerSearch() {
 			</div>
 		</div>
 		<div className="banner_main">
-		<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      One of three columns
-	  <div class="col-sm">
-	  <h1 className="taital">Search</h1>
-	  <input type="text" class="" placeholder="Search for a product" />
-	  </div>
-    </div>
-    <div class="col-sm">
-      One of three columns
-	  <div className="col-sm-12">
-	<h1 className="taital">Search</h1>
-	<input type="text" class="" placeholder="Search for a product" />
-	
-</div>
-    </div>
-    <div class="col-sm">
-      One of three columns
-	  <div className="col-sm-12">
-	<h1 className="taital">Search</h1>
-	<input type="text" class="" placeholder="Search for a product" />
-	</div>
-    </div>
-  </div>
-</div>
+		<div class="container searchContainerBanner">
+    <div className="container">
+				<div className="ram">
+					<div className="row">
+					    <div className="col-sm-12">
+						    <h1 className="taital">Search for a new friend</h1>
+                <h5 className="consectetur_text"> Fun fact: </h5>
+						    <p className="consectetur_text">{animalFact ? animalFact : ""}</p>
+						    <div className="banner_bt">
+
+						    </div>
+					    </div>
+				    </div>
+				</div>
+				<div className="box">
+					<h1 className="numbar_text">01</h1>
+				</div>
+			</div>
+  
 		</div>
+    
 	</div>
-    </div>
-	
+  
+  </div>
 
-
+  
+    </div>  
 
 
 
