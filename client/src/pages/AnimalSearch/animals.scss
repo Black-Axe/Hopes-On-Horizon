@@ -1,6 +1,6 @@
 .side-bar{
   float:left;
-  padding-left: 8vw;
+  padding-left: 6vw;
   padding-top: 45vh;
 
 
@@ -59,22 +59,16 @@
   font-size: 4rem;
 }
 
-.stickyNote{
-  position: relative;
-  text-align: center;
-  bottom:5px;
-  background-image: url("../digitalAssets/clientSide/sticky.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  width:450px;
-  left:37vw;
-
-}
 
 .stickyNoteText{
   position: relative;
   width:200px;
   left:6vw;
   bottom:23vh;
+}
+
+.error-div{
+  font-size: 2.5rem;
+  text-align: center;
+  color:red;
 }

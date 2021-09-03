@@ -19,7 +19,7 @@ export default function SectionGalleryTwo() {
                 </div>
                 <div class="col-sm-4">
     				<div class="dog_img">
-                        <img src="images/dog-img.png" style={{maxWidth: "100%"}} />
+                        <img src="images/dog-img.png" alt="dog" style={{maxWidth: "100%"}} />
                         </div>
     			</div>
 

@@ -1,9 +1,13 @@
 
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from './pages/Home';
-import SearchAnimals from './pages/SearchAnimals';
-import Animals from './pages/Animals';
+import SearchAnimals from './pages/AnimalSearch/SearchAnimals';
+import Animals from './pages/Animals/Animals';
+import Badge from './components/Badge/Badge';
+
+
+import Header from './components/materialHeader/Header';
 
 function App() {
   return (

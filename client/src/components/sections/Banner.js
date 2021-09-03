@@ -17,20 +17,20 @@ export default function Banner() {
 		<div className="container-fluid">
 			<div className="row">
 				<div className="col-md-4">
-					<div><a href="index.html"><img src="images/logo.png" alt="logo"/></a></div>
+					<div><a href="/"><img src="images/logohope.png" alt="logo"/></a></div>
 				</div>
 				<div className="col-md-8">
 					<div className="menu_text">
 						<ul>
-							<li className="last">Log in / Register</li>
+							<a href="/search"><li className="last">Search Animals</li></a>
 							<li className="last"><img src="images/search-icon.png" alt="search Icon" onClick={openNav}/></li>
 							<li className="active">
 							 <div id="myNav" className="overlay" ref={navRef}>
                                 <button className="closebtn" onClick={closeNav}>&times;</button>
                              <div className="overlay-content">
-                             	<a href="index.html">Home</a>
+                             	<a href="/">Home</a>
                                 <a href="about.html">About</a>
-                                <a href="gallery.html">Gallery</a>
+                                <a href="/search">Search</a>
                                 <a href="contact.html">Contact</a>
                               </div>
                             </div>
@@ -46,7 +46,7 @@ export default function Banner() {
 				<div className="ram">
 					<div className="row">
 					    <div className="col-sm-12">
-						    <h1 className="taital">Best Pet Shop</h1>
+						    <h1 className="taital">Find your bestfriend</h1>
 						    <p className="consectetur_text">consectetur adipiscing elit, sed do eiusmod tempor incidid</p>
 						    <div className="banner_bt">
 						    	<button className="read_bt">Read More</button>
