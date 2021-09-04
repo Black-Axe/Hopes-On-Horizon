@@ -20,7 +20,7 @@ export const Card = ({animal}) => {
     if (img === noImg) {
         blackTextClass = "black-text";
     }
-    console.log(imageAvailable)
+    //console.log(imageAvailable)
     if(address){
         //console.log(address);
         for (var key in address) {
@@ -84,8 +84,9 @@ export const Card = ({animal}) => {
 
 <div class="cardAnimal-grid-space">
     <div class="num">{animal.name ? animal.name.substring(0, 17) : 'name'}</div>
+    <div class="num">{animal.id ? animal.id : 'name'}</div>
     <div class="num2">{address ? address.city : ''} , {address ? address.state : ''}</div>
-    <a class="cardAnimal cardAnimal-image" href="/" style={{backgroundImage: `url(${img})`}}>
+    <a class="cardAnimal cardAnimal-image" href={ animal.id ? `/animal/${animal.id}` : '/'} style={{backgroundImage: `url(${img})`}}>
       <div className={"card-animal-info"}>
         <h1 className={blackTextClass}>{animal.name ? animal.name.substring(0, 20) : 'name'}</h1>
         <p className={blackTextClass}>{animal.description ? animal.description.substring(0, 72) : 'No desc'}</p>

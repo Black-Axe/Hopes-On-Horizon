@@ -1,103 +1,182 @@
 import express from 'express';
 import axios from 'axios';
 
-
 var authUrl = 'https://api.petfinder.com/v2/oauth2/token';
 var url = 'https://api.petfinder.com/v2/animals';
 
 import retry from 'retry';
-
+import axiosRetry from 'axios-retry';
 
 const router = express.Router();
 
 var token;
-var expires;
 var token_type;
+var retryMsg = "too many retries on making request, server can't request resource";
 
 
-
-const operation = retry.operation({
-    retries: 3,
-    factor: 3,
-    minTimeout: 1 * 1000,
-    maxTimeout: 60 * 1000,
-    randomize: true,
-  });
-  
+var maxRetries = 4;
 
 
 
 
 export const getAnimals = async (req, res) => {
-    var tries = 5;
-    var currentTry = 0;
+
+
+    if(!token){
+    await getToken();
+    }
+    
+    
+    let triesCounter = 0;
+    while(triesCounter <= maxRetries){
+        var headers = {
+            'Authorization': token_type + " " + token,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        };
+    
+        console.log("trying to get animals");
+        console.log("Trying for " + triesCounter + " time...");
+
+        try{
+            await axios.get(url, {
+                headers: headers,
+            }).then(function (response){
+                var data = response.data;
+                //res.json(response.data);
+                if(data){
+                    console.log("retrieved data, now filtering");
+                    var animals = data.animals;
+                    var pagination = data.pagination;
+                    var filteredAnimals = [];
+                    for(var i = 0; i < animals.length; i++){
+                        if(!invalidName(animals[i].name)){
+                            filteredAnimals.push(animals[i]);
+                        }
+                    }
+                    var resp = {animals: filteredAnimals, pagination: pagination};
+                    res.json(resp);
+                    return;
+                }else{
+                    res.status(500).send('error');
+                    return;
+                }    
+
+                
+            })
+            return;
+        }
+        catch(e){
+            console.log("error getting animals");
+            triesCounter++;
+            if(triesCounter >= maxRetries){
+                console.log("too many retries, backing off");
+                res.json({status: 444, message: retryMsg});
+                return;
+            }
+            if(triesCounter == 1){
+                console.log("getting new token");
+                await getToken();
+             
+            }
+
+            console.log('\n');
+        }
+    }
+
+
+   
+}
+
+export const getAnimal =  async (req, res) => {
+    const animalId = req.params.animal;
+
+    var animalUrlId = url + "/" + animalId;
+
+    
+    if(invalidNumber(animalId) || !animalId){
+        res.status(400).json("Invalid animal idd");
+        return;
+    }
+
 
     if(!token){
     await getToken();
     }
 
-    operation.attempt(async (currentAttempt) => {
-        console.log('sending request: ', currentAttempt, ' attempt');
-        try {
-      
-            await axios.request(url, {
-                headers: {
-                    'Authorization': token_type + " " + token,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).then(function (response) {
-           
-                if(response.status == 200){
-                    console.log('success');
-                    const data = response.data.animals;
-                    var filteredAnimals = [];
-                    for(var i = 0; i < data.length; i++){
-                        if(invalidName(data[i].name)){
-                            continue;
-                        }else{
-                            filteredAnimals.push(data[i]);
-                        }
-                        //console.log(data[i].name);
-                        //console.log(invalidName(data[i].name));
-                    }
+    let triesCounter = 0;
 
-                    const pagination = response.data.pagination;
-                    var resp = {animals: filteredAnimals, pagination: pagination};
-        
-                    res.json(resp);
-                }
+    while(triesCounter <= maxRetries){
+
+        var headers = {
+            'Authorization': token_type + " " + token,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        };
+
+        console.log("trying to get animal");
+        console.log("Trying for " + triesCounter + " time...");
+
+        try{
+            await axios.get(animalUrlId, {
+                headers: headers,
+            }).then(function (response){
+                var data = response.data;
+                if(data){
+                    console.log("retrieved data");
+                    res.json(data);
+                    return;
+                }else{
+                    res.status(500).send('error');
+                    return;
+                }    
+
+                
             })
-
-
-
-
-
-
-
-      
-        } catch (e) {
-            console.log(e);
-            await getToken();
-          if (operation.retry(e)) { return; }
+            return;
         }
-      });
+        catch(e){
+            console.log("error getting animal");
+            triesCounter++;
+            if(triesCounter >= maxRetries){
+                console.log("too many retries, backing off");
+                res.json({status: 444, message: retryMsg});
+                return;
+            }
+            if(triesCounter == 1){
+                console.log("getting new token");
+                await getToken();
+             
+            }
+
+            console.log('\n');
+
+        }
 
 
 
 
 
-    
-}
 
-export const getAnimal = (req, res) => {
-    res.json({status: 'success', message: 'Get animal hehe'});
+
+
+
+
+    }
+        
+
+
+   
+
+   //await makeApiRequest(animalUrlId);
+
+    //var animal = await makeApiRequest(animalUrlId);
+    //console.log(animal);
+    //res.json(animal);
 }
 
 
 export const getAnimalsByLocation = async (req, res) => {
-    //http://localhost:5000/location/newyork,ny?state=ny&city=newyork
-    var tries = 5;
-    var currentTry = 0;
+    //http://localhost:5000/search/location/{distance in miles}?state=ny&city=newyork
+
 
     var state = req.query.state;
     var city = req.query.city;
@@ -137,6 +216,7 @@ export const getAnimalsByLocation = async (req, res) => {
   if((!city || !state) && !zip){
       console.log('yo');
       res.json({status: 'error', message: 'Please provide a city or state, or zipcode'});
+      return;
   }else{
 
 
@@ -144,65 +224,72 @@ export const getAnimalsByLocation = async (req, res) => {
         if(zip){
             location = zip;
         }else{
-            location = city + ',' + state;
+            location = city + ', ' + state;
         }
     }
 
     if(!token){
         await getToken();
     }
-    operation.attempt(async (currentAttempt) => {
-        console.log('sending request: ', currentAttempt, ' attempt');
-        try {
-      
-            await axios.request(url, {
-                headers: {
-                    'Authorization': token_type + " " + token,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                params: {
-                    location: location,
-                    distance: distance
-                }
-            }).then(function (response) {
-           
-                if(response.status == 200){
-                    console.log('success');
-                    const data = response.data;
-                   // console.log(response);
-                   // console.log(data);
 
-                   
-                    
+    const params = { location: location, distance: distance };
 
-                    const pagination = response.data.pagination;
-                    var resp = {animals: response.data.animals, pagination: pagination};
-        
-                    res.json(resp);
-                }
+    let triesCounter = 0;
+
+    while(triesCounter <= maxRetries){
+        var headers = {
+            'Authorization': token_type + " " + token,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        };
+
+
+        console.log("trying to get animals by location");
+        console.log("Trying for " + triesCounter + " time...");
+
+        try{
+            await axios.get(url, {
+                params: params,
+                headers: headers,
+
+            }).then(function (response){
+                var data = response.data;
+                if(data){
+                    console.log("retrieved data");
+                    res.json(data);
+                    return;
+                }else{
+                    res.status(500).send('error');
+                    return;
+                }    
+
+                
             })
-
-
-
-
-
-
-
-      
-        } catch (e) {
-            console.log(e);
-            console.log('EEEERRRROR');
-            console.log(e.response);
-            await getToken();
-          if (operation.retry(e)) { return; }
+            return;
         }
-      });
+        catch(e){
+            triesCounter++;
+            if(triesCounter >= maxRetries){
+                console.log("too many retries, backing off");
+                res.json({status: 444, message: retryMsg});
+                return;
+            }
+            if(triesCounter == 1){
+                console.log("getting new token");
+                await getToken();
+             
+            }
+
+            console.log('\n');
+        }
 
 
 
 
 
-   // res.json({status: 'success', message: 'Get animals by locationsss'});
+    }
+
+
+   
   }
 
 
@@ -219,7 +306,12 @@ export const locationController = async(req, res) =>{
 }
 
 
+
+
+//helpers
+
 const getToken = async () => {
+    console.log("getting token inside gettoken");
 
     await axios.post(authUrl, {
         grant_type: 'client_credentials',
@@ -228,14 +320,21 @@ const getToken = async () => {
     }).then(function (response) {
         //console.log(response.data);
         token = response.data.access_token;
-        expires = response.data.expires_in;
+       // expires = response.data.expires_in;
         token_type = response.data.token_type;
+       
+        
       })
       .catch(function (error) {
         console.log(error);
       });
 
+     
 
+}
+
+const getTokenTest = async () => {
+    token = "test";
 }
 
 const invalidName = (name) => {
@@ -243,5 +342,58 @@ const invalidName = (name) => {
     return isnum;
     
 };
+
+const invalidNumber = (number) => {
+    if(isNaN(number)){
+        return true;
+    }
+
+
+    
+    if(!isNaN(number)){
+        if(number < 0){
+            return true;
+        }
+    }
+
+    return false;
+
+
+}
+
+
+
+
+
+
+const makeApiRequestSimple = async(url, params) => {
+
+    //check for params and set our headers
+    if(params){
+        console.log('params');
+        console.log(params);
+    }
+    var headers = {
+        'Authorization': token_type + " " + token,
+        'Content-Type': 'application/x-www-form-urlencoded'
+    };
+
+
+        return await axios.get(url, {
+            headers: headers,
+            params: params
+        }).then((r) => {
+           // console.log(r.data);
+           console.log('returning data');
+            return r.data;
+        })
+      
+      
+    }
+
+
+
+
+
 
 export default router;

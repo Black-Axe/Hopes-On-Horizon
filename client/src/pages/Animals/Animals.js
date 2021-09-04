@@ -1,6 +1,6 @@
 import React, {useState, useEffect}from 'react'
-import Banner from '../components/Banner'
-import CardList from '../components/card-list/CardList'
+import Banner from '../../components/sections/Banner'
+import CardList from '../../components/card-list/CardList';
 export default function Animals() {
     const [animals, setAnimals] = useState(null);
     const [pagination, setPagination] = useState(null);

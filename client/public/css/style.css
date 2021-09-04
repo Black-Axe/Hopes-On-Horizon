@@ -144,7 +144,9 @@ a {
 .header_section{
 	width: 100%; 
 	float: left;
-	background-image: url(../images/banner.jpg);
+	/*background-image: url(../images/catdog.jpg); */
+    background:linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.513)), url(../images/catdog.jpg);
+
 	height: auto;
 	padding-top: 20px;	
 	background-size: cover;
