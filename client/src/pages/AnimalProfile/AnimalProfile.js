@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -38,23 +38,102 @@ const useStyles = makeStyles(profilePageStyle);
 
 export default function ProfilePageTwo({  match, ...rest }) {
   let { animalId } = useParams();
+  const [animal, setAnimal] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  /*
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/animals/${animalId}`)
+      .then(res => res.json())
+      .then(data => {
+        setAnimal(data);
+        setLoading(false);
+      }, [animalId]);
+      */
+
+
+useEffect(() => {
+  if(!animalId) {
+    setLoading(true);
+    return;
+  }
+  console.log(animalId);
+
+  fetch(`http://localhost:5000/animals/${animalId}`)
+    .then(res => res.json())
+    .then(data => {
+      setAnimal(data.animal);
+      setLoading(false);
+      console.log(data.animal);
+
+    })
+} , []);
   
 
+  
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
-    console.log(rest);
-    console.log(animalId);
   });
+
+
+
   const classes = useStyles();
   const imageClasses = classNames(
     classes.imgRaised,
     classes.imgRoundedCircle,
     classes.imgFluid
   );
+
+
   const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
+
+  if(loading){
+    return (<>
+      <div>
+      <Header
+        color="transparent"
+        brand="Hopes on Horizon"
+        links={""}
+        fixed
+        changeColorOnScroll={{
+          height: 200,
+          color: "info",
+        }}
+        {...rest}
+      />
+      <Parallax
+        image={catdog}
+        filter="dark"
+        className={classes.parallax}
+      />
+      <div className={classNames(classes.main, classes.mainRaised)}>
+        <div className={classes.container}>
+          <GridContainer justify="center">
+            <GridItem xs={12} sm={12} md={6}>
+              <div className={classes.profile}>
+                <div>
+                </div>
+                <div className={classes.name}>
+                  <h3 className={classes.title}>Loading...</h3>
+                  <h6>Loading...</h6>
+                 
+                 
+                </div>
+              </div>
+              <div className={classes.follow}>
+               
+              </div>
+            </GridItem>
+          </GridContainer>
+          </div>
+          </div>
+
+      </div>
+      </>
+    )
+  }
   return (
     <div>
       <Header
@@ -79,11 +158,13 @@ export default function ProfilePageTwo({  match, ...rest }) {
             <GridItem xs={12} sm={12} md={6}>
               <div className={classes.profile}>
                 <div>
-                  <img src={"../../digitalAssets/catdog.jpg"} alt="..." className={imageClasses} />
+                  <img src={animal ? animal.primary_photo_cropped.medium : ""} alt="..." className={imageClasses} />
                 </div>
                 <div className={classes.name}>
-                  <h3 className={classes.title}>Christian Louboutin</h3>
-                  <h6>DESIGNER</h6>
+                  <h3 className={classes.title}>{animal ? animal.name : "name"}</h3>
+                  <h6>
+                    {animal ? animal.size : "size"}, {animal ? animal.species : "species"}
+                  </h6>
                  
                  
                 </div>
@@ -94,12 +175,7 @@ export default function ProfilePageTwo({  match, ...rest }) {
             </GridItem>
           </GridContainer>
           <div className={classNames(classes.description, classes.textCenter)}>
-            <p>
-              An artist of considerable range, Chet Faker — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure.{" "}
-            </p>
+            <p>{  animal ? animal.description : "description"}</p>
           </div>
           <div className={classes.profileTabs}>
             <NavPills

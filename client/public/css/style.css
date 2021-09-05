@@ -219,6 +219,7 @@ a {
     height: 100px;
     font-size: 25pt;
     border:0px;
+    cursor: pointer;
 }
 
 .box{
