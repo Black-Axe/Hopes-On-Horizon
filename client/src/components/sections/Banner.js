@@ -1,6 +1,14 @@
 import React, {useRef} from 'react'
+import { useHistory } from "react-router-dom";
+
 
 export default function Banner() {
+	const history = useHistory();
+
+	function handleClick() {
+		//console.log('clicked')
+		history.push("/search");
+	}
 
     function openNav(){
         //console.log(navRef.current);
@@ -47,9 +55,9 @@ export default function Banner() {
 					<div className="row">
 					    <div className="col-sm-12">
 						    <h1 className="taital">Find your bestfriend</h1>
-						    <p className="consectetur_text">consectetur adipiscing elit, sed do eiusmod tempor incidid</p>
+						    <p className="consectetur_text">Search for a new furry or scaly friend within 100miles from you!</p>
 						    <div className="banner_bt">
-						    	<button className="read_bt">Read More</button>
+						    	<button className="read_bt" onClick={handleClick}>Search Now</button>
 						    </div>
 					    </div>
 				    </div>
