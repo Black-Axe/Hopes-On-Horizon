@@ -22,9 +22,11 @@ var maxRetries = 4;
 export const getAnimals = async (req, res) => {
 
 
+    
     if(!token){
     await getToken();
     }
+    
     
     
     let triesCounter = 0;
@@ -35,7 +37,7 @@ export const getAnimals = async (req, res) => {
         };
     
         console.log("trying to get animals");
-        console.log("Trying for " + triesCounter + " time...");
+        console.log("Trying for " + (triesCounter+1) + " time...");
 
         try{
             await axios.get(url, {
