@@ -773,3 +773,19 @@ button.btn.btn-primary, button.btn.btn-primary:hover, button.btn.btn-primary:foc
     text-align: center;
     color: #fff;
 }
+
+@media screen and (max-width: 1110px) {
+
+    .pagination-imagination{
+        width: auto;
+    }
+    
+}
+
+@media screen and (max-width: 1300px) {
+
+    .searchContainer{
+        width: auto;
+    }
+    
+}

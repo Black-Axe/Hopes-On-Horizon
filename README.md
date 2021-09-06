@@ -1,3 +1,6 @@
+[![Deploy to Firebase](https://github.com/elsowiny/HopesOnHorizon/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/elsowiny/HopesOnHorizon/actions/workflows/firebase-hosting-merge.yml)
+
+
 Must use a process env for access the client ID and Secret for the API requests. This should be created in the root of the srver folder.
 test
 

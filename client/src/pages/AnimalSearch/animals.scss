@@ -21,13 +21,14 @@
   grid-gap: 4rem;
   padding: 4rem;
   margin: 0 auto;
-  width: max-content;
+  //width: max-content;
 
 }
 
 @media only screen and (max-width: 1300px) {
  .searchContainer {
    grid-template-columns: 1fr 1fr;
+   width: auto;
   }
 }
 
