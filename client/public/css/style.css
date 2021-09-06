@@ -152,6 +152,19 @@ a {
     background-repeat: no-repeat;
 }
 
+
+@media only screen and (min-width: 200px) and (max-width: 767px)  {
+    .num{
+        font-size: 2em!important;
+
+    }
+
+    .searchContainer{
+        width: auto !important;
+    }
+}
+
+
 .active{ 
 	background-color: #ffffff;
 	padding-top: 5px; 

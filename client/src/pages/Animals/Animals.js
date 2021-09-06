@@ -9,7 +9,7 @@ export default function Animals() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:5000/animals')
+        fetch('https://shelter-se.herokuapp.com/animals')
         .then(response => response.json())
         .then(data => {
             setAnimals(data.animals);
