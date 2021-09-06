@@ -22,4 +22,4 @@ jobs:
           channelId: live
           projectId: hopes-on-horizon
         env:
-          CI: false
+          CI: ""
