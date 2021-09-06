@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Camera from "@material-ui/icons/Camera";
 import Palette from "@material-ui/icons/Palette";
 import People from "@material-ui/icons/People";
+import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 // core components
 
 import Header from '../../components/materialHeader/Header';
@@ -37,9 +38,24 @@ import catdog from '../../digitalAssets/catdog.jpg';
 const useStyles = makeStyles(profilePageStyle);
 
 export default function ProfilePageTwo({  match, ...rest }) {
+
+  const colorsArray = ["primary",
+  "warning",
+  "danger",
+  "success",
+  "info",
+  "rose",
+  "gray",]
+
+  const noImg = 'https://raw.githubusercontent.com/elsowiny/DigitalAssets/master/nune.jpg';
+
   let { animalId } = useParams();
   const [animal, setAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [animalImage, setAnimalImage] = useState(noImg);
+  const [animalImageArray, setAnimalImageArray] = useState();
+  const [animalTags, setAnimalTags] = useState();
+  let animalImg;
 
   /*
   useEffect(() => {
@@ -65,6 +81,25 @@ useEffect(() => {
       setAnimal(data.animal);
       setLoading(false);
       console.log(data.animal);
+      
+      if(!data.animal.primary_photo_cropped) {
+        console.log("no image");
+        setAnimalImage(noImg);
+      }
+      else {
+        console.log("image");
+        setAnimalImage(data.animal.primary_photo_cropped.medium);
+      }
+      setAnimalImageArray(data.animal.photos);
+      setAnimalTags(data.animal.tags);
+      console.log(data.animal.tags);
+      console.log(data.animal.photos);
+
+      if(data.animal.photos.length > 0) {
+        for(let i =0; i < data.animal.photos.length; i++) {
+          console.log(data.animal.photos[i].medium);
+        }
+      }
 
     })
 } , []);
@@ -90,12 +125,13 @@ useEffect(() => {
   const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
 
   if(loading){
+    //LOADING ANIMAL
     return (<>
       <div>
       <Header
         color="transparent"
         brand="Hopes on Horizon"
-        links={""}
+        links={<HeaderLinks dropdownHoverColor="info" />}
         fixed
         changeColorOnScroll={{
           height: 200,
@@ -117,7 +153,8 @@ useEffect(() => {
                 </div>
                 <div className={classes.name}>
                   <h3 className={classes.title}>Loading...</h3>
-                  <h6>Loading...</h6>
+                  <h2 style={{color: 'black'}}>Loading...</h2>
+                  <div style={{height: '400px'}}></div>
                  
                  
                 </div>
@@ -134,12 +171,19 @@ useEffect(() => {
       </>
     )
   }
+
+
+
+
+
+
+
   return (
     <div>
       <Header
         color="transparent"
         brand="Hopes on Horizon"
-        links={""}
+        links={<HeaderLinks dropdownHoverColor="info" />}
         fixed
         changeColorOnScroll={{
           height: 200,
@@ -148,7 +192,7 @@ useEffect(() => {
         {...rest}
       />
       <Parallax
-        image={catdog}
+        image={animal ? animalImage : catdog}
         filter="dark"
         className={classes.parallax}
       />
@@ -158,7 +202,7 @@ useEffect(() => {
             <GridItem xs={12} sm={12} md={6}>
               <div className={classes.profile}>
                 <div>
-                  <img src={animal ? animal.primary_photo_cropped.medium : ""} alt="..." className={imageClasses} />
+                  <img src={animalImage ? animalImage : ""} alt="..." className={imageClasses} />
                 </div>
                 <div className={classes.name}>
                   <h3 className={classes.title}>{animal ? animal.name : "name"}</h3>
@@ -193,90 +237,35 @@ useEffect(() => {
                         md={7}
                         className={classes.gridItem}
                       >
-                        <h4 className={classes.title}>Latest Collections</h4>
+                        <h4 className={classes.title}>Photos</h4>
                         <GridContainer className={classes.collections}>
-                          <GridItem xs={12} sm={12} md={6}>
-                            <Card
-                              background
-                              style={{
-                                backgroundImage: "url(" + "" + ")",
-                              }}
-                            >
-                              <CardBody background className={classes.cardBody}>
-                                <Badge
-                                  color="warning"
-                                  className={classes.badge}
+
+                          {
+                            animalImageArray ? animalImageArray.map(photo => {
+                              return(
+                                <GridItem xs={12} sm={12} md={6}>
+                                <Card
+                                  background
+                                  style={{
+                                    backgroundImage: `url(${ photo? photo.medium : ""})`,
+                                  }}
                                 >
-                                  Spring 2016
-                                </Badge>
-                                <a href="#pablo">
-                                  <h2 className={classes.cardTitleWhite}>
-                                    Stilleto
-                                  </h2>
-                                </a>
-                              </CardBody>
-                            </Card>
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={6}>
-                            <Card
-                              background
-                              style={{
-                                backgroundImage: "url(" + "" + ")",
-                              }}
-                            >
-                              <CardBody background className={classes.cardBody}>
-                                <Badge color="info" className={classes.badge}>
-                                  Spring 2016
-                                </Badge>
-                                <a href="#pablo">
-                                  <h2 className={classes.cardTitleWhite}>
-                                    High Heels
-                                  </h2>
-                                </a>
-                              </CardBody>
-                            </Card>
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={6}>
-                            <Card
-                              background
-                              style={{
-                                backgroundImage: "url(" + "" + ")",
-                              }}
-                            >
-                              <CardBody background className={classes.cardBody}>
-                                <Badge color="danger" className={classes.badge}>
-                                  Summer 2016
-                                </Badge>
-                                <a href="#pablo">
-                                  <h2 className={classes.cardTitleWhite}>
-                                    Flats
-                                  </h2>
-                                </a>
-                              </CardBody>
-                            </Card>
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={6}>
-                            <Card
-                              background
-                              style={{
-                                backgroundImage: "url(" + "" + ")",
-                              }}
-                            >
-                              <CardBody background className={classes.cardBody}>
-                                <Badge
-                                  color="success"
-                                  className={classes.badge}
-                                >
-                                  Winter 2016
-                                </Badge>
-                                <a href="#pablo">
-                                  <h2 className={classes.cardTitleWhite}>
-                                    Men{"'"}s Sneakers
-                                  </h2>
-                                </a>
-                              </CardBody>
-                            </Card>
-                          </GridItem>
+                                  <CardBody background className={classes.cardBody}>
+                                 
+                                   
+                                  </CardBody>
+                                </Card>
+                              </GridItem>
+
+
+                              )
+
+                            }) : ""
+                           
+                            
+
+                          }
+                         
                         </GridContainer>
                       </GridItem>
                       <GridItem
@@ -301,23 +290,33 @@ useEffect(() => {
                           </li>
                         </ul>
                         <hr />
-                        <h4 className={classes.title}>About this work</h4>
+                        <h4 className={classes.title}>Meet {animal ? animal.name : ""}</h4>
                         <p className={classes.description}>
-                          French luxury footwear and fashion. The footwear has
-                          incorporated shiny, red-lacquered soles that have
-                          become his signature.
+                          {animal ? animal.description : "description"}
                         </p>
                         <hr />
-                        <h4 className={classes.title}>Focus</h4>
-                        <Badge color="primary">Footwear</Badge>
-                        <Badge color="rose">Luxury</Badge>
+                        <h4 className={classes.title}>Attributes</h4>
+                        {
+                          animalTags ? animalTags.map(tag => {
+                            let randomColor = colorsArray[Math.floor(Math.random() * colorsArray.length)];
+                            console.log(randomColor);
+
+                            return(
+                              <Badge color={randomColor} >
+                                {tag}
+                              </Badge>
+                            )
+                          }) : ""
+
+
+                        }
                       </GridItem>
                     </GridContainer>
                   ),
                 },
                 {
-                  tabButton: "Connections",
-                  tabIcon: People,
+                  tabButton: "Contact",
+                  tabIcon: PermContactCalendarIcon,
                   tabContent: (
                     <div>
                       <GridContainer justify="center">

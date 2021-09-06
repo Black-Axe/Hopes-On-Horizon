@@ -8,8 +8,13 @@ export const Card = ({animal}) => {
     const noImg = 'https://raw.githubusercontent.com/elsowiny/DigitalAssets/master/nune.jpg';
     const randImg = `https://picsum.photos/200`;
 
+    let potentialImg = noImg;
+    if(animal.photos.length > 0) {
+      potentialImg = animal.photos[0].medium;
 
-    const img = animal.primary_photo_cropped ? animal.primary_photo_cropped.small : noImg;
+    }
+
+    const img = animal.primary_photo_cropped ? animal.primary_photo_cropped.small : potentialImg;
     const address = animal.contact.address ? animal.contact.address : null; //address obj with key values
     const addressNoneDiv = 'No address';
     var addressText = "";
