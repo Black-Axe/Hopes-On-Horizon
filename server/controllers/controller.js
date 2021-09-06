@@ -212,9 +212,16 @@ export const getAnimalsByLocation = async (req, res) => {
     //http://localhost:5000/search/location/{distance in miles}?state=ny&city=newyork
 
 
+    var page = req.query.page;
     var state = req.query.state;
     var city = req.query.city;
     var zip = req.query.zipcode;
+    var location = req.query.location;
+
+    if(location){
+        console.log("location we have");
+        console.log(location);
+    };
 
     var {distance} = req.params;
     if(!distance){
@@ -243,11 +250,10 @@ export const getAnimalsByLocation = async (req, res) => {
     }else{
         console.log('no zip')
     }
-    var location;
      
 
     
-  if((!city || !state) && !zip){
+  if((!city || !state) && !zip && !location){
       console.log('yo');
       res.json({status: 'error', message: 'Please provide a city or state, or zipcode'});
       return;
@@ -266,7 +272,11 @@ export const getAnimalsByLocation = async (req, res) => {
         await getToken();
     }
 
-    const params = { location: location, distance: distance };
+    if(!page){
+        page = 1;
+    }
+
+    const params = { location: location, distance: distance , page: page};
 
     let triesCounter = 0;
 

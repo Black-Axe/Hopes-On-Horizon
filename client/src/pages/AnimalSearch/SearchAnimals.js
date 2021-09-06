@@ -17,8 +17,69 @@ export default function SearchAnimals() {
     const [zip, setZip] = useState(null);
     const [city, setCity] = useState(null);
     const [state, setState] = useState(null);
+    const [pagination, setPagination] = useState(null);
 
     const [distance, setDistance] = useState(50);
+
+    function parseQuery(queryString) {
+      var query = {};
+      var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+      for (var i = 0; i < pairs.length; i++) {
+          var pair = pairs[i].split('=');
+          query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+      }
+      return query;
+  }
+
+    const handlePageClick = pageSelection => {
+      //(pageSelection);
+      let pageSelected = pageSelection.selected + 1;
+      //console.log(pageSelected);
+      //console.log(pagination);
+    //  console.log(pagination._links.next.href);
+      //console.log(parseQuery(pagination._links.next.href));
+      let query = parseQuery(pagination._links.next.href);
+      let location = query.location;
+
+      if(!location) {
+        location = "";
+        fetch(`http://localhost:5000/animals?page=${pageSelected}`)
+        .then(res => res.json())
+        .then(data => {
+            //console.log(data);
+            setAnimals(data.animals);
+            setPagination(data.pagination);
+        })
+        .catch(err => {
+            setError(err);
+        })
+
+        return;
+
+
+
+      }
+      let urlPageChange = `http://localhost:5000/search/location/${distance}?location=${location}&page=${pageSelected}`
+
+      fetch(urlPageChange)
+      .then(response => response.json())
+      .then(data => {
+       // console.log(data);
+        setAnimals(data.animals);
+        setPagination(data.pagination);
+      })
+      .catch(error => {
+       // console.log(error);
+        setError(error);
+      });
+
+
+    //  console.log(distance);
+     // console.log(urlPageChange);
+
+      
+
+    }
 
     const handleSliderChange = (event, newValue) => {
         setDistance(newValue);
@@ -37,16 +98,21 @@ export default function SearchAnimals() {
       };
 
     useEffect(() => {
+      if(!animals){
+
         fetch('https://shelter-se.herokuapp.com/animals')
         .then(response => response.json())
         .then(data => {
             setAnimals(data.animals);
+            setPagination(data.pagination);
             setError(false);
             //console.log(data);
         })
         .catch(error => {
             setError(error);
         })
+      }
+
     }, []);
 
     useEffect(() => {
@@ -74,8 +140,8 @@ export default function SearchAnimals() {
             alert('Please enter a state and city');
             return;
         }
-        console.log(state);
-        console.log(city);
+      //  console.log(state);
+      //  console.log(city);
 
         //http://localhost:5000/search/location/10?state=NY&city=Albany
         const urlWithState = `https://shelter-se.herokuapp.com/search/location/${distance}?state=${state}&city=${city}`;
@@ -89,6 +155,7 @@ export default function SearchAnimals() {
             return;
           }
             setAnimals(data.animals);
+            setPagination(data.pagination);
             setError(false);
            // console.log(data);
            // console.log('success');
@@ -116,6 +183,7 @@ export default function SearchAnimals() {
         .then(data => {
           //console.log(data);
             setAnimals(data.animals);
+            setPagination(data.pagination);
             setError(false);
             //console.log(data);
         })
@@ -255,10 +323,10 @@ export default function SearchAnimals() {
      
       <div className="pagination-imagination">
       <ReactPaginate 
-            pageCount={1222}
+            pageCount={pagination ? pagination.total_pages ? pagination.total_pages : 1 : 1}
             marginPagesDisplayed={5}
             pageRangeDisplayed={10}
-            onPageChange={"handlePageClick"}
+            onPageChange={handlePageClick}
             activeClassName="activeCurrentPage"
         />
 
