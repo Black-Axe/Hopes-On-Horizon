@@ -39,6 +39,8 @@ const useStyles = makeStyles(profilePageStyle);
 
 export default function ProfilePageTwo({  match, ...rest }) {
 
+  const notSpecified = "not specified";
+
   const colorsArray = ["primary",
   "warning",
   "danger",
@@ -55,6 +57,9 @@ export default function ProfilePageTwo({  match, ...rest }) {
   const [animalImage, setAnimalImage] = useState(noImg);
   const [animalImageArray, setAnimalImageArray] = useState();
   const [animalTags, setAnimalTags] = useState();
+  const [animalAttributes, setAnimalAttributes] = useState();
+  const [adoptionEmail, setAdoptionEmail] = useState("");
+  const [adoptionPhone, setAdoptionPhone] = useState("");
   let animalImg;
 
   /*
@@ -66,6 +71,7 @@ export default function ProfilePageTwo({  match, ...rest }) {
         setLoading(false);
       }, [animalId]);
       */
+
 
 
 useEffect(() => {
@@ -92,8 +98,19 @@ useEffect(() => {
       }
       setAnimalImageArray(data.animal.photos);
       setAnimalTags(data.animal.tags);
+      setAnimalAttributes(data.animal.attributes);
+
+      if(data.animal.contact.phone){
+        setAdoptionPhone(data.animal.contact.phone);
+      }
+      if(data.animal.contact.email){
+        setAdoptionEmail(data.animal.contact.email);
+      }
+
       console.log(data.animal.tags);
       console.log(data.animal.photos);
+
+      console.log(data.animal.attributes);
 
       if(data.animal.photos.length > 0) {
         for(let i =0; i < data.animal.photos.length; i++) {
@@ -207,8 +224,21 @@ useEffect(() => {
                 <div className={classes.name}>
                   <h3 className={classes.title}>{animal ? animal.name : "name"}</h3>
                   <h6>
-                    {animal ? animal.size : "size"}, {animal ? animal.species : "species"}
+                    <strong>Size:</strong> {animal ? animal.size : "size"}
                   </h6>
+
+                  <h6>
+                    <strong>Gender:</strong> {animal ? animal.gender : "gender"}
+                  </h6>
+
+                  <h6>
+                  <strong>Age:</strong> {animal ? animal.age : "age"} 
+                  </h6>
+
+                  <h6>
+                    <strong>Species:</strong> {animal ? animal.species : "species"}
+                  </h6>
+                 
                  
                  
                 </div>
@@ -227,8 +257,8 @@ useEffect(() => {
               color="primary"
               tabs={[
                 {
-                  tabButton: "Work",
-                  tabIcon: Palette,
+                  tabButton: "Photos",
+                  tabIcon: Camera,
                   tabContent: (
                     <GridContainer>
                       <GridItem
@@ -274,19 +304,30 @@ useEffect(() => {
                         md={2}
                         className={classes.gridItem}
                       >
-                        <h4 className={classes.title}>Stats</h4>
+                        <h4 className={classes.title}>Attributes</h4>
                         <ul className={classes.listUnstyled}>
+                          {
+                            /*declawed: null
+house_trained: true
+shots_current: true
+spayed_neutered: true
+special_needs: false*/
+
+                          }
                           <li>
-                            <b>60</b> Products
+                            <b>Declawed</b>: {animalAttributes ? animalAttributes.declawed ? `${animalAttributes.declawed}` : notSpecified : ""}
                           </li>
                           <li>
-                            <b>4</b> Collections
+                            <b>House Trained</b>: {animalAttributes ? animalAttributes.house_trained ? `${animalAttributes.house_trained}` : notSpecified : ""}
                           </li>
                           <li>
-                            <b>331</b> Influencers
+                            <b>Shots Current</b>: {animalAttributes ? animalAttributes.shots_current ? `${animalAttributes.shots_current}` : notSpecified : ""}
                           </li>
                           <li>
-                            <b>1.2K</b> Likes
+                            <b>Spray Neutered</b>: {animalAttributes ? animalAttributes.spayed_neutered ? `${animalAttributes.spayed_neutered}` : notSpecified : ""}
+                          </li>
+                          <li>
+                            <b>Special Needs</b>: {animalAttributes ? animalAttributes.special_needs ? `${animalAttributes.special_needs}` : notSpecified : ""}
                           </li>
                         </ul>
                         <hr />
@@ -295,7 +336,7 @@ useEffect(() => {
                           {animal ? animal.description : "description"}
                         </p>
                         <hr />
-                        <h4 className={classes.title}>Attributes</h4>
+                        <h4 className={classes.title}>Tags</h4>
                         {
                           animalTags ? animalTags.map(tag => {
                             let randomColor = colorsArray[Math.floor(Math.random() * colorsArray.length)];
@@ -318,7 +359,20 @@ useEffect(() => {
                   tabButton: "Contact",
                   tabIcon: PermContactCalendarIcon,
                   tabContent: (
+                    
                     <div>
+                      {/*
+                      "contact":{
+         "email":"info@caspca.org",
+         "phone":"(434) 973-5959",
+         "address":{
+            "address1":"3355 Berkmar Dr.",
+            "address2":null,
+            "city":"Charlottesville",
+            "state":"VA",
+            "postcode":"22901",
+            "country":"US"
+         }*/}
                       <GridContainer justify="center">
                         <GridItem
                           xs={12}
@@ -332,16 +386,30 @@ useEffect(() => {
                               <GridItem xs={12} sm={12} md={12}>
                                 <CardBody plain>
                                   <h4 className={classes.cardTitle}>
-                                    Gigi Hadid
+                                    Address
                                   </h4>
-                                  <Muted>
-                                    <h6>MODEL</h6>
-                                  </Muted>
+
                                   <p className={classes.description}>
-                                    Don{"'"}t be scared of the truth because we
-                                    need to restart the human foundation in
-                                    truth...
+                                  {animal.contact ? animal.contact.address? animal.contact.address.address1 : "" : ""}
                                   </p>
+                                  <p>
+                                  {animal.contact ? animal.contact.address? animal.contact.address.address2 : "" : ""}
+                                  </p>
+
+                                 <a href={
+                                   "https://www.google.com/maps/dir/" 
+                                   + animal.contact.address.address1 + " " +
+                                   animal.contact.address.city + " " +
+                                   animal.contact.address.state + " " +
+                                   animal.contact.address.postcode 
+                                   }> <p className={classes.description}>
+                                  {animal.contact ? animal.contact.address? animal.contact.address.city : "" : ""}, &nbsp;  
+                                    {animal.contact ? animal.contact.address? animal.contact.address.state : "" : ""},  &nbsp;
+                                    {animal.contact ? animal.contact.address? animal.contact.address.postcode : "" : ""}  &nbsp;
+                                    {animal.contact ? animal.contact.address? animal.contact.address.country : "" : ""}
+                                    
+                                  </p>
+                                  </a>
                                 </CardBody>
                               </GridItem>
                             </GridContainer>
@@ -362,15 +430,11 @@ useEffect(() => {
                               <GridItem xs={12} sm={12} md={12}>
                                 <CardBody plain>
                                   <h4 className={classes.cardTitle}>
-                                    Kendall Jenner
+                                  Email
                                   </h4>
                                   <Muted>
-                                    <h6>MODEL</h6>
+                                  <a href={'mailto:' + adoptionEmail}><h6>{animal.contact ? animal.contact.email : notSpecified}</h6></a>
                                   </Muted>
-                                  <p className={classes.description}>
-                                    I love you like Kanye loves Kanye. Don
-                                    {"'"}t be scared of the truth.
-                                  </p>
                                 </CardBody>
                               </GridItem>
                             </GridContainer>
@@ -388,14 +452,11 @@ useEffect(() => {
                               <GridItem xs={12} sm={12} md={7}>
                                 <CardBody plain>
                                   <h4 className={classes.cardTitle}>
-                                    George West
+                                    Phone
                                   </h4>
                                   <Muted>
-                                    <h6>MODEL/DJ</h6>
+                                    <a href={'tel:' + adoptionPhone}><h6>{animal.contact ? animal.contact.phone : notSpecified}</h6></a>
                                   </Muted>
-                                  <p className={classes.description}>
-                                    I love you like Kanye loves Kanye.
-                                  </p>
                                 </CardBody>
                               </GridItem>
                             </GridContainer>
@@ -405,43 +466,7 @@ useEffect(() => {
                     </div>
                   ),
                 },
-                {
-                  tabButton: "Media",
-                  tabIcon: Camera,
-                  tabContent: (
-                    <GridContainer justify="center">
-                      <GridItem xs={12} sm={12} md={3}>
-                        <img
-                          alt="..."
-                          src={""}
-                          className={navImageClasses}
-                        />
-                        <img
-                          alt="..."
-                          src={""}
-                          className={navImageClasses}
-                        />
-                      </GridItem>
-                      <GridItem xs={12} sm={12} md={3}>
-                        <img
-                          alt="..."
-                          src={""}
-                          className={navImageClasses}
-                        />
-                        <img
-                          alt="..."
-                          src={""}
-                          className={navImageClasses}
-                        />
-                        <img
-                          alt="..."
-                          src={""}
-                          className={navImageClasses}
-                        />
-                      </GridItem>
-                    </GridContainer>
-                  ),
-                },
+           
               ]}
             />
           </div>
