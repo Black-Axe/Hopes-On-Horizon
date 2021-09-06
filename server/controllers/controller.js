@@ -20,6 +20,37 @@ var maxRetries = 4;
 
 
 export const getAnimals = async (req, res) => {
+    let page = req.query.page;
+    let limit = req.query.limit;
+    let urlWithParams = url;
+
+    if(page){
+        console.log("page we have")
+        urlWithParams = url + '?page=' + page;
+
+        if(limit){
+            console.log("limit we have");
+            if(limit >=100){
+                limit = 100;
+            }
+            if(limit <= 0){
+                limit = 1;
+            }
+            urlWithParams = urlWithParams + '&limit=' + limit;
+        }else{
+            console.log("limit we don't have");
+        }
+
+    }
+   
+    if(!page && limit){
+        console.log("limit we have only");
+        urlWithParams = url + '?limit=' + limit;
+    }
+    console.log("URL");
+    console.log(urlWithParams);
+
+   
 
 
     
@@ -38,9 +69,10 @@ export const getAnimals = async (req, res) => {
     
         console.log("trying to get animals");
         console.log("Trying for " + (triesCounter+1) + " time...");
+      
 
         try{
-            await axios.get(url, {
+            await axios.get(urlWithParams, {
                 headers: headers,
             }).then(function (response){
                 var data = response.data;
@@ -308,6 +340,9 @@ export const locationController = async(req, res) =>{
 }
 
 
+export const getAnimalsNextPage = async (req, res) => {
+
+};
 
 
 //helpers

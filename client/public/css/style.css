@@ -753,3 +753,23 @@ button.btn.btn-primary, button.btn.btn-primary:hover, button.btn.btn-primary:foc
 	padding-bottom: 20px;
 }
 .footer-logo{  }
+
+
+.pagination-imagination{
+    margin: 0 auto;
+    width: max-content;
+}
+
+.pagination-imagination ul li{
+    float: left;
+    margin: 20px;
+
+
+}
+
+.activeCurrentPage{
+    background-color: #ff9900;
+    width: 35px;
+    text-align: center;
+    color: #fff;
+}
