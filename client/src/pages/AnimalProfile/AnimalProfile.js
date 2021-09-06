@@ -5,8 +5,6 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 import Camera from "@material-ui/icons/Camera";
-import Palette from "@material-ui/icons/Palette";
-import People from "@material-ui/icons/People";
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 // core components
 
@@ -60,7 +58,7 @@ export default function ProfilePageTwo({  match, ...rest }) {
   const [animalAttributes, setAnimalAttributes] = useState();
   const [adoptionEmail, setAdoptionEmail] = useState("");
   const [adoptionPhone, setAdoptionPhone] = useState("");
-  let animalImg;
+
 
   /*
   useEffect(() => {
@@ -79,21 +77,21 @@ useEffect(() => {
     setLoading(true);
     return;
   }
-  console.log(animalId);
+  //console.log(animalId);
 
-  fetch(`http://localhost:5000/animals/${animalId}`)
+  fetch(`https://shelter-se.herokuapp.com/animals/${animalId}`)
     .then(res => res.json())
     .then(data => {
       setAnimal(data.animal);
       setLoading(false);
-      console.log(data.animal);
+     // console.log(data.animal);
       
       if(!data.animal.primary_photo_cropped) {
-        console.log("no image");
+       // console.log("no image");
         setAnimalImage(noImg);
       }
       else {
-        console.log("image");
+        //console.log("image");
         setAnimalImage(data.animal.primary_photo_cropped.medium);
       }
       setAnimalImageArray(data.animal.photos);
@@ -107,19 +105,14 @@ useEffect(() => {
         setAdoptionEmail(data.animal.contact.email);
       }
 
-      console.log(data.animal.tags);
-      console.log(data.animal.photos);
+      //console.log(data.animal.tags);
+     // console.log(data.animal.photos);
 
-      console.log(data.animal.attributes);
+      //console.log(data.animal.attributes);
 
-      if(data.animal.photos.length > 0) {
-        for(let i =0; i < data.animal.photos.length; i++) {
-          console.log(data.animal.photos[i].medium);
-        }
-      }
 
     })
-} , []);
+} , [animalId]);
   
 
   
@@ -139,7 +132,6 @@ useEffect(() => {
   );
 
 
-  const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
 
   if(loading){
     //LOADING ANIMAL
@@ -340,7 +332,7 @@ special_needs: false*/
                         {
                           animalTags ? animalTags.map(tag => {
                             let randomColor = colorsArray[Math.floor(Math.random() * colorsArray.length)];
-                            console.log(randomColor);
+                           // console.log(randomColor);
 
                             return(
                               <Badge color={randomColor} >

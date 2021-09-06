@@ -36,7 +36,7 @@ export default function SearchAnimals() {
       };
 
     useEffect(() => {
-        fetch('http://localhost:5000/animals')
+        fetch('https://shelter-se.herokuapp.com/animals')
         .then(response => response.json())
         .then(data => {
             setAnimals(data.animals);
@@ -49,7 +49,7 @@ export default function SearchAnimals() {
     }, []);
 
     useEffect(() => {
-        console.log(distance);
+        //console.log(distance);
     }, [distance]);
 
 
@@ -77,7 +77,7 @@ export default function SearchAnimals() {
         console.log(city);
 
         //http://localhost:5000/search/location/10?state=NY&city=Albany
-        const urlWithState = `http://localhost:5000/search/location/${distance}?state=${state}&city=${city}`;
+        const urlWithState = `https://shelter-se.herokuapp.com/search/location/${distance}?state=${state}&city=${city}`;
 
         fetch(urlWithState)
         .then(response => response.json())
@@ -89,8 +89,8 @@ export default function SearchAnimals() {
           }
             setAnimals(data.animals);
             setError(false);
-            console.log(data);
-            console.log('success');
+           // console.log(data);
+           // console.log('success');
         })
         .catch(error => {
             setError(error);
@@ -101,7 +101,7 @@ export default function SearchAnimals() {
 
     const handleZipChange = (event) => {
       setZip(event.target.value);
-      console.log(zip);
+     // console.log(zip);
     }
 
     const handleSearchZip = async (event) => {
@@ -109,8 +109,8 @@ export default function SearchAnimals() {
             alert('Please enter a zip code');
             return;
         }
-        console.log(zip);
-        fetch(`http://localhost:5000/search/location/${distance}?zipcode=${zip}`)
+        //console.log(zip);
+        fetch(`https://shelter-se.herokuapp.com/search/location/${distance}?zipcode=${zip}`)
         .then(response => response.json())
         .then(data => {
           //console.log(data);
@@ -131,13 +131,13 @@ export default function SearchAnimals() {
         <div className="side-bar">
             <ul>
                 <li>
-                    <a href="/"><span class="side-bar-menu-text">Home</span></a>
+                    <a href="/"><span className="side-bar-menu-text">Home</span></a>
                 </li>
                 <li>
-                    <a href="/animals"><span class="side-bar-menu-text"> Animals</span></a>
+                    <a href="/animals"><span className="side-bar-menu-text"> Animals</span></a>
                 </li>
                 <li>
-                    <a href="/search"><span class="side-bar-menu-text">Search</span></a>
+                    <a href="/search"><span className="side-bar-menu-text">Search</span></a>
                 </li>
             </ul>
           </div>
@@ -146,9 +146,9 @@ export default function SearchAnimals() {
           
           <div className="city-state-fields">
             <h4 className="searchLabel">Search by city and state</h4>
-              <input id="cityField" placeholder="city" className="fieldsInput" onChange={handleCityChange} value={city}></input>
+              <input id="cityField" placeholder="city" className="fieldsInput" onChange={handleCityChange} ></input>
 
-              <select name="state" className="fieldsInput" onChange={handleStateChange} value={state} >
+              <select name="state" className="fieldsInput" onChange={handleStateChange}  >
         <option value="AL">AL</option>
         <option value="AK">AK</option>
         <option value="AZ">AZ</option>
