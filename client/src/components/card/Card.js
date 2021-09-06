@@ -89,7 +89,6 @@ export const Card = ({animal}) => {
 
 <div class="cardAnimal-grid-space">
     <div class="num">{animal.name ? animal.name.substring(0, 17) : 'name'}</div>
-    <div class="num">{animal.id ? animal.id : 'name'}</div>
     <div class="num2">{address ? address.city : ''} , {address ? address.state : ''}</div>
     <a class="cardAnimal cardAnimal-image" href={ animal.id ? `/animal/${animal.id}` : '/'} style={{backgroundImage: `url(${img})`}}>
       <div className={"card-animal-info"}>

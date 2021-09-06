@@ -50,10 +50,9 @@ export default function BannerSearch() {
 							 <div id="myNav" className="overlay" ref={navRef}>
                                 <button className="closebtn" onClick={closeNav}>&times;</button>
                              <div className="overlay-content">
-                             	<a href="/">Home</a>
-                                <a href="about.html">About</a>
+                             <a href="/">Home</a>
                                 <a href="/search">Search</a>
-                                <a href="contact.html">Contact</a>
+                                <a href="/animals">Animals</a>
                               </div>
                             </div>
                              <span style={{fontSize: '30px',cursor:"pointer"}} onClick={openNav}>&#9776; Menu</span>

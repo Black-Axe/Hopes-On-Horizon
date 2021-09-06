@@ -1,6 +1,6 @@
 .side-bar{
   float:left;
-  padding-left: 6vw;
+  padding-left: 3vw;
   padding-top: 45vh;
 
 
@@ -24,6 +24,31 @@
   width: max-content;
 
 }
+
+@media only screen and (max-width: 1300px) {
+ .searchContainer {
+   grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+ .searchContainer {
+   grid-template-columns: 1fr;
+   .fieldsInput{
+    height:6.5vh;
+    width:15.5vw;
+  
+   // margin-right:15px;
+  }
+  }
+
+
+  .side-bar{
+    display:none;
+  }
+}
+
+
 
 .city-state-fields{
   float:left;
@@ -71,4 +96,15 @@
   font-size: 2.5rem;
   text-align: center;
   color:red;
+}
+
+
+.side-bar-menu-text{
+  color:red;
+  font-family: 'Indie Flower', cursive;
+  font-size: 25px;
+}
+
+.dog_bt, .more_bt{
+  cursor: pointer;
 }
