@@ -43,7 +43,7 @@ export default function SearchAnimals() {
 
       if(!location) {
         location = "";
-        fetch(`http://localhost:5000/animals?page=${pageSelected}`)
+        fetch(`https://shelter-se.herokuapp.com/animals?page=${pageSelected}`)
         .then(res => res.json())
         .then(data => {
             //console.log(data);
@@ -59,7 +59,7 @@ export default function SearchAnimals() {
 
 
       }
-      let urlPageChange = `http://localhost:5000/search/location/${distance}?location=${location}&page=${pageSelected}`
+      let urlPageChange = `https://shelter-se.herokuapp.com/search/location/${distance}?location=${location}&page=${pageSelected}`
 
       fetch(urlPageChange)
       .then(response => response.json())
@@ -96,6 +96,7 @@ export default function SearchAnimals() {
             setDistance(100);
         }
       };
+    //
 
     useEffect(() => {
       if(!animals){

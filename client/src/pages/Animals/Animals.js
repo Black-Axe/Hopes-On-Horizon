@@ -12,13 +12,13 @@ export default function Animals() {
     const [error, setError] = useState(null);
 
     const handlePageClick = (pageSelection) => {
-        console.log(pageSelection);
+        //console.log(pageSelection);
         let pageSelected = pageSelection.selected + 1;
-        console.log(pageSelected);
-        fetch(`http://localhost:5000/animals?page=${pageSelected}`)
+        //console.log(pageSelected);
+        fetch(`https://shelter-se.herokuapp.com/animals?page=${pageSelected}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            //log(data);
             setAnimals(data.animals);
             setPagination(data.pagination);
         })
@@ -35,7 +35,7 @@ export default function Animals() {
             setAnimals(data.animals);
             setPagination(data.pagination);
             setLoading(false);
-            console.log(data);
+            //console.log(data);
         })
         .catch(error => {
             setError(error);
@@ -45,15 +45,7 @@ export default function Animals() {
     }
 
     }, []);
-
-    useEffect(() => {
-        console.log("animals");
-        console.log(animals);
-        console.log("pagination");
-        
-        console.log(pagination);
-        //console.log(pagination.total_pages);
-    }, [animals]);
+//
 
     return (
         <>
