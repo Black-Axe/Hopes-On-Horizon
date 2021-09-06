@@ -96,6 +96,7 @@ export default function SearchAnimals() {
             setDistance(100);
         }
       };
+    //
 
     useEffect(() => {
       if(!animals){
