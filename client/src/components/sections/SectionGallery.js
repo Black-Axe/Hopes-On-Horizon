@@ -7,7 +7,7 @@ export default function SectionGallery() {
             <div class="row">
     			<div class="col-sm-12">
     				<h1 class="about_taital"><strong><span style={{color: "#ffffff"}}>Our</span> Dogs</strong></h1>
-				    <p class="sed_text"> consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer</p>
+				    <p class="sed_text"> Our dogs come from a range of shelters and organizations provided by an API courtesy of petfinder</p>
 
     			</div>
     		</div>

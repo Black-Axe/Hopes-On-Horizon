@@ -131,13 +131,13 @@ export default function SearchAnimals() {
         <div className="side-bar">
             <ul>
                 <li>
-                    <a href="/">Home</a>
+                    <a href="/"><span class="side-bar-menu-text">Home</span></a>
                 </li>
                 <li>
-                    <a href="/animals">Animals</a>
+                    <a href="/animals"><span class="side-bar-menu-text"> Animals</span></a>
                 </li>
                 <li>
-                    <a href="/search">Search</a>
+                    <a href="/search"><span class="side-bar-menu-text">Search</span></a>
                 </li>
             </ul>
           </div>
