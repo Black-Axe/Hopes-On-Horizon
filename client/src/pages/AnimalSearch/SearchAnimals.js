@@ -6,6 +6,7 @@ import Slider from "@material-ui/core/Slider";
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import Footer from '../../components/sections/Footer';
+import ReactPaginate from 'react-paginate';
 
 
 
@@ -250,6 +251,18 @@ export default function SearchAnimals() {
         </div>
 
       {error ? <div className="error-div">{error}</div> : <CardList animals={animals} /> }
+     
+     
+      <div className="pagination-imagination">
+      <ReactPaginate 
+            pageCount={1222}
+            marginPagesDisplayed={5}
+            pageRangeDisplayed={10}
+            onPageChange={"handlePageClick"}
+            activeClassName="activeCurrentPage"
+        />
+
+      </div>
 
       <Footer />
       
