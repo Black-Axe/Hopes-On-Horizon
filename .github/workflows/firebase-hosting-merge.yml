@@ -23,6 +23,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HOPES_ON_HORIZON }}'
           channelId: live
           projectId: hopes-on-horizon
-        env:
-          PROJECT_PATH: ./client
-        
+          entrypoint: client
