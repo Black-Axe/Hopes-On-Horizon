@@ -20,6 +20,7 @@ export default function Animals() {
         .then(data => {
             console.log(data);
             setAnimals(data.animals);
+            setPagination(data.pagination);
         })
         .catch(err => {
             setError(err);
