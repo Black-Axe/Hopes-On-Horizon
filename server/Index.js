@@ -10,14 +10,14 @@ dotenv.config();
 
 
 
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json()) // To parse the incoming requests with JSON payloads
 
 app.use(cors());
 app.get('/', async (req, res) => {
-    res.json({status: 'success', message: 'Get stuff'});
+    res.json({ status: 'success', message: 'Get stuff' });
 
-   
+
 });
 
 
@@ -28,4 +28,4 @@ app.use('/search', searchRouter);
 
 app.listen(process.env.PORT || 5000, () => {
     console.log('Server is running on http://localhost:5000/');
-} );
+});

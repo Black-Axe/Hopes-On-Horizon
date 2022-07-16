@@ -5,7 +5,8 @@
 Must use a process env for access the client ID and Secret for the API requests. This should be created in the root of the srver folder.
 test
 
-This is an online animal shelter extending the petfinder api.
+Hopes on Horizon is an online animal shelter extending the petfinder api available to use.
+<a href="https://hopesonhorizon.com/">Here</a>
 <img width="100%" height = "100%" src="./gitimg/hope-about.PNG" alt="cover" />
 <img width="100%" height = "100%" src="./gitimg/search-page.PNG" alt="cover" />
 <img width="100%" height = "100%" src="./gitimg/pet.PNG" alt="cover" />

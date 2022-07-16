@@ -10,9 +10,6 @@ router.get('/', getAnimals);
 //router.get('/location/:location', getAnimalsByLocation);
 router.use('/location/:location', getAnimalsByLocation);
 
-//we can access query params 
-//like ?stock= or ?stocksym= by using 
-//req.query.stock or req.query.stocksym
 
 router.use('/location', locationController);
 
