@@ -1,4 +1,4 @@
-### To Be revamped!
+### To Be revamped Soon!
 
 [![Deploy to Firebase](https://github.com/elsowiny/HopesOnHorizon/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/elsowiny/HopesOnHorizon/actions/workflows/firebase-hosting-merge.yml)
 
